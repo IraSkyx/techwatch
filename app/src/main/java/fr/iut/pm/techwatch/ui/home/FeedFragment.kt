@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.iut.pm.techwatch.R
 import fr.iut.pm.techwatch.TechWatchApplication
 import fr.iut.pm.techwatch.adapters.HomeNewsAdapter
+import fr.iut.pm.techwatch.db.entities.Feed
 
 class FeedFragment(
-    private val position: Int,
-    private val homeViewModel: HomeViewModel,
+    private val feed: Feed,
 ) : Fragment() {
     private val homeFeedViewModel: HomeFeedViewModel by viewModels {
         HomeFeedViewModelFactory((activity?.application as TechWatchApplication).repository)
@@ -34,10 +34,8 @@ class FeedFragment(
             layoutManager = LinearLayoutManager(context)
         }
 
-        homeViewModel.allFeeds.value?.get(position)?.let {
-            homeFeedViewModel.getFeedWithNews(it).observe(viewLifecycleOwner, {
-                listAdapter.submitList(it.news)
-            })
-        }
+        homeFeedViewModel.getFeedWithNews(feed).observe(viewLifecycleOwner, {
+            listAdapter.submitList(it.news)
+        })
     }
 }

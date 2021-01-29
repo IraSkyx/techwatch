@@ -28,13 +28,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var tabLayout = view.findViewById<TabLayout>(R.id.tabLayout).apply {
-            addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-                override fun onTabSelected(tab: TabLayout.Tab?) = viewModel.selectedFeed.postValue(viewModel.allFeeds.value?.find { it.id == tab?.tag })
-                override fun onTabReselected(tab: TabLayout.Tab?) {}
-                override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            })
-        }
+        var tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
 
         val listAdapter = HomeFeedAdapter(this, viewModel)
         var viewPager = view.findViewById<ViewPager2>(R.id.viewPager).apply {
@@ -44,7 +38,6 @@ class HomeFragment : Fragment() {
         viewModel.allFeeds.observe(viewLifecycleOwner, { feeds ->
             feeds?.let {
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                    tab.tag = it[position].id
                     tab.text = it[position].name
                 }.attach()
 

@@ -8,10 +8,9 @@ import fr.iut.pm.techwatch.db.entities.Feed
 import fr.iut.pm.techwatch.db.repositories.FeedRepository
 
 class HomeViewModel(
-    private val repository: FeedRepository
+    repository: FeedRepository
 ) : ViewModel() {
     val allFeeds: LiveData<List<Feed>> = repository.findAll()
-    var selectedFeed: MutableLiveData<Feed?> = MutableLiveData<Feed?>(null)
 }
 
 class HomeViewModelFactory(private val repository: FeedRepository) : ViewModelProvider.Factory {

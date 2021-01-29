@@ -6,6 +6,8 @@ import fr.iut.pm.techwatch.db.services.ServiceBuilder
 import fr.iut.pm.techwatch.db.dao.FeedDao
 import fr.iut.pm.techwatch.db.dao.NewsDao
 import fr.iut.pm.techwatch.db.entities.Feed
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class FeedRepository(
     private val feedDao: FeedDao,
@@ -20,7 +22,13 @@ class FeedRepository(
         emitSource(feedDao.findFeedWithNews(feed.id))
 
         //Revalidate cache
-        newsDao.upsertMany(*newsApi.getNews(feed.url).toTypedArray())
+        var newsFromApi = newsApi.getNews(ServiceBuilder.getEndpoint() + feed.url)
+        newsFromApi.articles.forEach { it.feedId = feed.id }
+
+        withContext(Dispatchers.IO) {
+            newsDao.upsertMany(*newsFromApi.articles.toTypedArray())
+        }
+
         emitSource(feedDao.findFeedWithNews(feed.id))
     }
 

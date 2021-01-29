@@ -8,7 +8,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ServiceBuilder {
     companion object {
-        private var ENDPOINT = "https://newsapi.org/"
+        var BASE_URL = "https://newsapi.org/"
+        var VERSION = "v2/"
+
+        @JvmStatic
+        fun getEndpoint() = BASE_URL + VERSION
 
         @JvmStatic
         fun <T> build(serviceClass: Class<T>): T {
@@ -21,7 +25,7 @@ class ServiceBuilder {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl(ENDPOINT)
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

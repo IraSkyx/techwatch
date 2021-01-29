@@ -12,7 +12,7 @@ import fr.iut.pm.techwatch.db.entities.News
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Feed::class, News::class], version = 1, exportSchema = false)
+@Database(entities = [Feed::class, News::class], version = 3, exportSchema = false)
 abstract class TechWatchDatabase : RoomDatabase() {
     abstract fun feedDao() : FeedDao
     abstract fun newsDao(): NewsDao

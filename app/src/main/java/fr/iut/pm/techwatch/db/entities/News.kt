@@ -13,10 +13,10 @@ import java.io.Serializable
 data class News (
     @PrimaryKey(autoGenerate = true) val id: Long,
     var title: String,
-    var sourceName: String,
-    var authorName: String,
+    var sourceName: String?,
+    var authorName: String?,
     var description: String,
-    var urlToImage: String,
+    var urlToImage: String?,
     var content: String,
     var publishedAt: String,
     var feedId: Long,

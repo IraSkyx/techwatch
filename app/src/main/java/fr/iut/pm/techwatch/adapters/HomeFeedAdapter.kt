@@ -11,5 +11,5 @@ class HomeFeedAdapter(
 ) : FragmentStateAdapter(fa) {
     override fun getItemCount(): Int = viewModel.allFeeds.value?.size ?: 0 //TODO Improve update when LiveData change
 
-    override fun createFragment(position: Int): Fragment = FeedFragment(position, viewModel)
+    override fun createFragment(position: Int): Fragment = FeedFragment(viewModel.allFeeds.value?.get(position)!!)
 }
