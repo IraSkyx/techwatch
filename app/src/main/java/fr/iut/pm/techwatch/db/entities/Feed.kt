@@ -1,4 +1,4 @@
-package fr.iut.pm.techwatch.entities
+package fr.iut.pm.techwatch.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

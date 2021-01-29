@@ -1,9 +1,9 @@
-package fr.iut.pm.techwatch.dao
+package fr.iut.pm.techwatch.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import fr.iut.pm.techwatch.entities.Feed
-import fr.iut.pm.techwatch.entities.FeedWithNews
+import fr.iut.pm.techwatch.db.entities.Feed
+import fr.iut.pm.techwatch.db.entities.FeedWithNews
 
 @Dao
 interface FeedDao {
@@ -11,12 +11,15 @@ interface FeedDao {
     fun findAll(): LiveData<List<Feed>>
 
     @Transaction
-    @Query("SELECT * FROM feeds WHERE id=:id LIMIT :take OFFSET :skip")
-    fun findFeedWithNews(id: Long, take: Int, skip: Int): LiveData<List<FeedWithNews>>
+    @Query("SELECT * FROM feeds WHERE id=:id")
+    fun findFeedWithNews(id: Long): LiveData<FeedWithNews>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsert(feed: Feed)
 
     @Delete
     fun delete(feed: Feed)
+
+    @Query("DELETE FROM feeds")
+    fun clear()
 }

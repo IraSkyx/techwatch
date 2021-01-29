@@ -1,4 +1,4 @@
-package fr.iut.pm.techwatch.entities
+package fr.iut.pm.techwatch.db.entities
 
 import androidx.room.Embedded
 import androidx.room.Relation

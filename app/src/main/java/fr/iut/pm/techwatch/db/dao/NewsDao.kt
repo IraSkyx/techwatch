@@ -1,8 +1,8 @@
-package fr.iut.pm.techwatch.dao
+package fr.iut.pm.techwatch.db.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import fr.iut.pm.techwatch.entities.News
+import fr.iut.pm.techwatch.db.entities.News
 
 @Dao
 interface NewsDao {
