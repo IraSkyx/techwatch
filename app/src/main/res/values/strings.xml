@@ -6,4 +6,10 @@
     <string name="home">Home</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="title">Title</string>
+    <string name="url">URL</string>
+    <string name="feed_deleted">Feed deleted</string>
+    <string name="undo_action">Undo</string>
+    <string name="name">Name</string>
+    <string name="save">Save</string>
 </resources>

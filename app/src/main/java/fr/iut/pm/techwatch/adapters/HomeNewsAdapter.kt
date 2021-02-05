@@ -1,50 +1,47 @@
 package fr.iut.pm.techwatch.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import fr.iut.pm.techwatch.R
+import fr.iut.pm.techwatch.databinding.HomeNewsBinding
 import fr.iut.pm.techwatch.db.entities.News
 
-class HomeNewsAdapter : ListAdapter<News, HomeNewsAdapter.NewsViewHolder>(NewsComparator()) {
+class HomeNewsAdapter() : ListAdapter<News, HomeNewsAdapter.NewsViewHolder>(NewsComparator()) {
+    var onItemClick : ((news: News) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
         return NewsViewHolder.create(parent)
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current)
+        holder.bind(current, onItemClick)
     }
 
-    class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val titleItemView: TextView = itemView.findViewById(R.id.home_news_title)
-        private val descriptionItemView: TextView = itemView.findViewById(R.id.home_news_description)
+    class NewsViewHolder(private var newsBinding: HomeNewsBinding) : RecyclerView.ViewHolder(newsBinding.root) {
+        fun bind(news: News, onItemClick: ((news: News) -> Unit)?) {
+            newsBinding.news = news
 
-        fun bind(news: News) {
-            titleItemView.text = news.title
-            descriptionItemView.text = news.description
+            itemView.setOnClickListener {
+                onItemClick?.invoke(news)
+            }
         }
 
         companion object {
             fun create(parent: ViewGroup): NewsViewHolder {
-                val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.home_news, parent, false)
-                return NewsViewHolder(view)
+                var newsBinding = HomeNewsBinding.inflate(LayoutInflater.from(parent.context))
+                return NewsViewHolder(newsBinding)
             }
         }
     }
 
     class NewsComparator : DiffUtil.ItemCallback<News>() {
         override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
-            return oldItem === newItem
+            return oldItem.id === newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: News, newItem: News): Boolean {
-            return oldItem.title == newItem.title && oldItem.publishedAt == newItem.publishedAt
-        }
+        override fun areContentsTheSame(oldItem: News, newItem: News): Boolean = oldItem == newItem
     }
 }

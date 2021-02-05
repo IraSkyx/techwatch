@@ -7,12 +7,12 @@
     <TextView
         android:id="@+id/feeds_recyclerview_item_name"
         android:textColor="@color/colorPrimary"
-        android:layout_width="match_parent"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
     <TextView
         android:id="@+id/feeds_recyclerview_item_url"
-        android:textColor="@color/colorPrimary"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

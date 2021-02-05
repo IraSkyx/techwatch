@@ -32,9 +32,11 @@ class FeedRepository(
         emitSource(feedDao.findFeedWithNews(feed.id))
     }
 
-    @Suppress("RedundantSuspendModifier")
-    suspend fun upsert(feed: Feed) = feedDao.upsert(feed)
+    suspend fun upsert(feed: Feed) = withContext(Dispatchers.IO) {
+        feedDao.upsert(feed)
+    }
 
-    @Suppress("RedundantSuspendModifier")
-    suspend fun delete(feed: Feed) = feedDao.delete(feed)
+    suspend fun delete(feed: Feed) = withContext(Dispatchers.IO) {
+        feedDao.delete(feed)
+    }
 }

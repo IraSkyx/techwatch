@@ -15,10 +15,10 @@ data class News (
     var title: String,
     var sourceName: String?,
     var authorName: String?,
-    var description: String,
+    var description: String?,
     var urlToImage: String?,
-    var content: String,
-    var publishedAt: String,
+    var content: String?,
+    var publishedAt: String?,
     var feedId: Long,
 ) : Serializable {
 }
