@@ -1,31 +1,31 @@
 package fr.iut.pm.techwatch.db.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
-import fr.iut.pm.techwatch.db.services.NewsService
-import fr.iut.pm.techwatch.db.services.ServiceBuilder
+import androidx.paging.*
+import fr.iut.pm.techwatch.db.TechWatchDatabase
 import fr.iut.pm.techwatch.db.dao.FeedDao
 import fr.iut.pm.techwatch.db.dao.NewsDao
 import fr.iut.pm.techwatch.db.entities.Feed
 import fr.iut.pm.techwatch.db.entities.News
-import fr.iut.pm.techwatch.db.pagings.NewsPagingSource
+import fr.iut.pm.techwatch.db.mediators.NewsRemoteMediator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class FeedRepository(
-    private val feedDao: FeedDao,
-    private val newsDao: NewsDao,
+    private val db: TechWatchDatabase,
+    private val feedDao: FeedDao = db.feedDao(),
+    private val newsDao: NewsDao = db.newsDao(),
 ) {
+    var dataSource: PagingSource<Int, News>? = null
+            
     fun findAll() = feedDao.findAll()
 
-    fun getNewsStream(feed: Feed): LiveData<PagingData<News>> = Pager(
+    fun getNewsStream(feed: Feed) = Pager(
         PagingConfig(pageSize = NETWORK_PAGE_SIZE),
-        pagingSourceFactory = { NewsPagingSource(feed, newsDao) }
-    ).liveData
+        remoteMediator = NewsRemoteMediator(db, feed)
+    ) {
+        dataSource = newsDao.pagingSource(feed.id)
+        dataSource!!
+    }.liveData
 
     suspend fun upsert(feed: Feed) = withContext(Dispatchers.IO) {
         feedDao.upsert(feed)

@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ServiceBuilder {
     companion object {
-        var BASE_URL = "https://newsapi.org/"
+        var BASE_URL = "http://newsapi.org/"
         var VERSION = "v2/"
 
         @JvmStatic

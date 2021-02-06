@@ -1,5 +1,6 @@
 package fr.iut.pm.techwatch.db.entities
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
@@ -19,6 +20,6 @@ data class News (
     var urlToImage: String?,
     var content: String?,
     var publishedAt: String?,
-    var feedId: Long,
+    @ColumnInfo(index = true) var feedId: Long,
 ) : Serializable {
 }
