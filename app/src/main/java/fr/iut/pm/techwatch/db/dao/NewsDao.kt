@@ -1,6 +1,7 @@
 package fr.iut.pm.techwatch.db.dao
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.*
 import fr.iut.pm.techwatch.db.entities.News
 
@@ -8,6 +9,9 @@ import fr.iut.pm.techwatch.db.entities.News
 interface NewsDao {
     @Query("SELECT * FROM news WHERE id=:id")
     fun findUnique(id: Long): LiveData<News>
+
+    @Query("SELECT * FROM news WHERE feedId=:id")
+    fun pagingSource(id: Long): PagingSource<Int, News>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun upsertMany(vararg news: News)

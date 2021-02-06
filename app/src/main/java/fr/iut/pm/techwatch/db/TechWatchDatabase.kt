@@ -25,22 +25,17 @@ abstract class TechWatchDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    populateDatabase(database.feedDao(), database.newsDao())
+                    populateDatabase(database.feedDao())
                 }
             }
         }
 
-        fun populateDatabase(feedDao: FeedDao, newsDao: NewsDao) {
+        fun populateDatabase(feedDao: FeedDao) {
             feedDao.clear()
-            feedDao.upsert(Feed(1, "Feed 1", "everything?q=tesla&pageSize=10&page=1&sortBy=publishedAt&apiKey=7cea05ce4ec74bcd9b3d95a22ecb87c1"))
-            feedDao.upsert(Feed(2, "Feed 2", "top-headlines?country=us&pageSize=10&page=1&category=business&apiKey=7cea05ce4ec74bcd9b3d95a22ecb87c1"))
-
-//            newsDao.upsertMany(
-//                News(1, "News 1", "", "", "Description 1", "", "", "", 1),
-//                News(2, "News 2", "", "", "Description 2", "", "", "", 1),
-//                News(3, "News 1", "", "", "Description 1", "", "", "", 2),
-//                News(4, "News 2", "", "", "Description 2", "", "", "", 2),
-//            )
+            feedDao.upsert(Feed(1, "Technology", "top-headlines?country=fr&category=technology&sortBy=publishedAt&apiKey=7cea05ce4ec74bcd9b3d95a22ecb87c1"))
+            feedDao.upsert(Feed(2, "Entertainment", "top-headlines?country=fr&category=entertainment&sortBy=publishedAt&apiKey=7cea05ce4ec74bcd9b3d95a22ecb87c1"))
+            feedDao.upsert(Feed(3, "Science", "top-headlines?country=fr&category=science&sortBy=publishedAt&apiKey=7cea05ce4ec74bcd9b3d95a22ecb87c1"))
+            feedDao.upsert(Feed(4, "Business", "top-headlines?country=fr&category=business&sortBy=publishedAt&apiKey=7cea05ce4ec74bcd9b3d95a22ecb87c1"))
         }
     }
 

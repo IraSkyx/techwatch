@@ -37,8 +37,8 @@ class HomeFragment : Fragment() {
 
         viewModel.allFeeds.observe(viewLifecycleOwner, { feeds ->
             feeds?.let {
-                listAdapter.notifyDataSetChanged()
-                viewPager.invalidate();
+                listAdapter.notifyDataSetChanged() //TODO USEFUL ?
+                viewPager.invalidate(); //TODO REMOVE
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     tab.text = it[position].name
                 }.attach()

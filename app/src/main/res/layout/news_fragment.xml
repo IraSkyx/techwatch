@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="fr.iut.pm.techwatch.ui.utils.Converters" />
         <variable
             name="news"
             type="fr.iut.pm.techwatch.db.entities.News" />
@@ -16,6 +17,12 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <ImageView
+            android:id="@+id/newsFragment_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +32,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{news.publishedAt.toString()}"
+            android:text="@{Converters.dateToString(context, news.publishedAt)}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="?android:attr/textColorSecondary" />
 
@@ -33,21 +40,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{news.sourceName}"
+            android:visibility="@{Converters.attrToVisibility(news.sourceName)}"
             android:textAppearance="?attr/textAppearanceCaption" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{news.authorName}"
+            android:visibility="@{Converters.attrToVisibility(news.authorName)}"
             android:textAppearance="?attr/textAppearanceCaption" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="@{news.description}"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?android:attr/textColorSecondary" />
 
         <TextView
             android:layout_width="wrap_content"

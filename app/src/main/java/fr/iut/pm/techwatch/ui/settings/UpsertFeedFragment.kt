@@ -32,7 +32,6 @@ class UpsertFeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         (activity as AppCompatActivity).supportActionBar?.title = if (feedBinding.feed?.id == Feed.NEW_FEED_ID) "Add feed" else "Edit feed"
     }
 

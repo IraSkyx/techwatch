@@ -2,13 +2,16 @@ package fr.iut.pm.techwatch.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
+import fr.iut.pm.techwatch.R
 import fr.iut.pm.techwatch.databinding.HomeNewsBinding
 import fr.iut.pm.techwatch.db.entities.News
 
-class HomeNewsAdapter() : ListAdapter<News, HomeNewsAdapter.NewsViewHolder>(NewsComparator()) {
+class HomeNewsAdapter() : PagingDataAdapter<News, HomeNewsAdapter.NewsViewHolder>(NewsComparator()) {
     var onItemClick : ((news: News) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
@@ -17,12 +20,20 @@ class HomeNewsAdapter() : ListAdapter<News, HomeNewsAdapter.NewsViewHolder>(News
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current, onItemClick)
+        if (current != null) {
+            holder.bind(current, onItemClick)
+        }
     }
 
     class NewsViewHolder(private var newsBinding: HomeNewsBinding) : RecyclerView.ViewHolder(newsBinding.root) {
         fun bind(news: News, onItemClick: ((news: News) -> Unit)?) {
             newsBinding.news = news
+
+            itemView.findViewById<ImageView>(R.id.home_news_imageView).apply {
+                news.urlToImage.let {
+                    Picasso.get().load(news.urlToImage).into(this)
+                }
+            }
 
             itemView.setOnClickListener {
                 onItemClick?.invoke(news)
