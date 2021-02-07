@@ -24,5 +24,6 @@ Dans ce schéma de conception, on propose de respecter le pattern MVVM sous Andr
 
 - Coroutines de Kotlin
 - Swipe to delete
+- Preload de font google
 - Retrofit pour les requêtes HTTP, la conversion de données et le logging avec okhttp3
 - Picasso pour le chargement, l'affichage et la mise en cache d'image 
