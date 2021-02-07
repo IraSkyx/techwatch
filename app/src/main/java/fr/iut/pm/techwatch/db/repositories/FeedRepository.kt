@@ -21,11 +21,12 @@ class FeedRepository(
 
     fun getNewsStream(feed: Feed) = Pager(
         PagingConfig(pageSize = NETWORK_PAGE_SIZE),
-        remoteMediator = NewsRemoteMediator(db, feed)
-    ) {
-        dataSource = newsDao.pagingSource(feed.id)
-        dataSource!!
-    }.liveData
+        remoteMediator = NewsRemoteMediator(db, feed),
+        pagingSourceFactory = {
+            dataSource = newsDao.pagingSource(feed.id)
+            dataSource!!
+        }
+    ).liveData
 
     suspend fun upsert(feed: Feed) = withContext(Dispatchers.IO) {
         feedDao.upsert(feed)
