@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -24,23 +23,19 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.home_fragment, container, false)
-    }
+    ): View = inflater.inflate(R.layout.home_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
-
-        val listAdapter = HomeFeedAdapter(this, viewModel)
-        val viewPager = view.findViewById<ViewPager2>(R.id.viewPager).apply {
-            adapter = listAdapter
-        }
-
-        setHasOptionsMenu(true)
+        val viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
+        val listAdapter = HomeFeedAdapter(this)
+        viewPager.adapter = listAdapter
 
         viewModel.allFeeds.observe(viewLifecycleOwner, { feeds ->
+            listAdapter.feeds = feeds
+
             feeds?.let {
                 tabLayoutMediator?.detach()
                 tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -49,19 +44,5 @@ class HomeFragment : Fragment() {
                 tabLayoutMediator?.attach()
             }
         })
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.home_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_refresh -> {
-                viewModel.clearNews()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }
