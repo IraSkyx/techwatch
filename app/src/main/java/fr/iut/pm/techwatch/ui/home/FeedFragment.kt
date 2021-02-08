@@ -26,7 +26,7 @@ class FeedFragment(
     private val feed: Feed,
 ) : Fragment() {
     private val homeFeedViewModel: HomeFeedViewModel by viewModels {
-        HomeFeedViewModelFactory((activity?.application as TechWatchApplication).repository)
+        HomeFeedViewModelFactory((activity?.application as TechWatchApplication).newsRepository)
     }
 
     override fun onCreateView(
@@ -45,7 +45,8 @@ class FeedFragment(
 
         view.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout).apply {
             setOnRefreshListener {
-                homeFeedViewModel.invalidateDataSource()
+                homeFeedViewModel.invalidateDataSource(feed)
+                listAdapter.refresh()
                 isRefreshing = false
             }
         }

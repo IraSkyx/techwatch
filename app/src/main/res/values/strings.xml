@@ -12,4 +12,5 @@
     <string name="undo_action">Undo</string>
     <string name="name">Name</string>
     <string name="save">Save</string>
+    <string name="refresh">Refresh</string>
 </resources>

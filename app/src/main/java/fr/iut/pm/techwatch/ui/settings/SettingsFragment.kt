@@ -22,7 +22,7 @@ import fr.iut.pm.techwatch.db.entities.Feed
 
 class SettingsFragment : Fragment() {
     private val viewModel: SettingsViewModel by viewModels {
-        SettingsViewModelFactory((activity?.application as TechWatchApplication).repository)
+        SettingsViewModelFactory((activity?.application as TechWatchApplication).feedRepository)
     }
 
     override fun onCreateView(

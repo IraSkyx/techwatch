@@ -1,11 +1,10 @@
 package fr.iut.pm.techwatch.ui.home
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -15,7 +14,10 @@ import fr.iut.pm.techwatch.adapters.HomeFeedAdapter
 
 class HomeFragment : Fragment() {
     private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory((activity?.application as TechWatchApplication).repository)
+        HomeViewModelFactory(
+            (activity?.application as TechWatchApplication).feedRepository,
+            (activity?.application as TechWatchApplication).newsRepository,
+        )
     }
 
     override fun onCreateView(
@@ -35,12 +37,30 @@ class HomeFragment : Fragment() {
             adapter = listAdapter
         }
 
+        setHasOptionsMenu(true)
+
         viewModel.allFeeds.observe(viewLifecycleOwner, { feeds ->
             feeds?.let {
                 TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     tab.text = it.takeIf { position < it.size }?.get(position)?.name
                 }.attach()
+                viewPager.invalidate()
+                listAdapter.notifyDataSetChanged()
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_refresh -> {
+                viewModel.clearNews()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

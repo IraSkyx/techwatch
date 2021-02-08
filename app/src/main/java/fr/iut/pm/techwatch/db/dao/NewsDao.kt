@@ -14,8 +14,11 @@ interface NewsDao {
     fun pagingSource(id: Long): PagingSource<Int, News>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun upsertMany(vararg news: News)
+    fun upsertMany(vararg news: News) : List<Long>
 
     @Query("DELETE from news where feedId=:feedId")
     fun deleteMany(feedId: Long)
+
+    @Query("DELETE FROM news")
+    fun clear()
 }

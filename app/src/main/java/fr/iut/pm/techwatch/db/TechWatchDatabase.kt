@@ -7,15 +7,18 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import fr.iut.pm.techwatch.db.dao.FeedDao
 import fr.iut.pm.techwatch.db.dao.NewsDao
+import fr.iut.pm.techwatch.db.dao.NewsWithRemoteKeysDao
 import fr.iut.pm.techwatch.db.entities.Feed
 import fr.iut.pm.techwatch.db.entities.News
+import fr.iut.pm.techwatch.db.entities.NewsWithRemoteKeys
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [Feed::class, News::class], version = 1, exportSchema = false)
+@Database(entities = [Feed::class, News::class, NewsWithRemoteKeys::class], version = 1, exportSchema = false)
 abstract class TechWatchDatabase : RoomDatabase() {
     abstract fun feedDao() : FeedDao
     abstract fun newsDao(): NewsDao
+    abstract fun newsWithRemoteKeysDao(): NewsWithRemoteKeysDao
 
     private class TechWatchDatabaseCallback(
         private val scope: CoroutineScope
@@ -31,11 +34,20 @@ abstract class TechWatchDatabase : RoomDatabase() {
         }
 
         fun populateDatabase(feedDao: FeedDao) {
+            //Switch keys when reach the max 100 calls per day
+            var currentKey = 3
+            var apiKeys = listOf(
+                "4a2b7f29ea9b471ab70bab3907c25a53",
+                "caabb5f1b6304a30bd7b457ad90f37bb",
+                "7cea05ce4ec74bcd9b3d95a22ecb87c1",
+                "bfc299a8824b43f79bba4fb246f8bcac",
+            )
+
             feedDao.clear()
-            feedDao.upsert(Feed(1, "Technology", "top-headlines?country=fr&category=technology&sortBy=publishedAt&apiKey=caabb5f1b6304a30bd7b457ad90f37bb"))
-            feedDao.upsert(Feed(2, "Entertainment", "top-headlines?country=fr&category=entertainment&sortBy=publishedAt&apiKey=caabb5f1b6304a30bd7b457ad90f37bb"))
-            feedDao.upsert(Feed(3, "Science", "top-headlines?country=fr&category=science&sortBy=publishedAt&apiKey=caabb5f1b6304a30bd7b457ad90f37bb"))
-            feedDao.upsert(Feed(4, "Business", "top-headlines?country=fr&category=business&sortBy=publishedAt&apiKey=caabb5f1b6304a30bd7b457ad90f37bb"))
+            feedDao.upsert(Feed(1, "Technology", "top-headlines?country=fr&category=technology&sortBy=publishedAt&apiKey=${apiKeys[currentKey]}"))
+            feedDao.upsert(Feed(2, "Entertainment", "top-headlines?country=fr&category=entertainment&sortBy=publishedAt&apiKey=${apiKeys[currentKey]}"))
+            feedDao.upsert(Feed(3, "Science", "top-headlines?country=fr&category=science&sortBy=publishedAt&apiKey=${apiKeys[currentKey]}"))
+            feedDao.upsert(Feed(4, "Business", "top-headlines?country=fr&category=business&sortBy=publishedAt&apiKey=${apiKeys[currentKey]}"))
         }
     }
 

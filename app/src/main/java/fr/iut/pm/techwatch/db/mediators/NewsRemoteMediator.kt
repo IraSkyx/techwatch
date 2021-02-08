@@ -6,38 +6,47 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import fr.iut.pm.techwatch.db.TechWatchDatabase
 import fr.iut.pm.techwatch.db.dao.NewsDao
+import fr.iut.pm.techwatch.db.dao.NewsWithRemoteKeysDao
 import fr.iut.pm.techwatch.db.entities.Feed
 import fr.iut.pm.techwatch.db.entities.News
+import fr.iut.pm.techwatch.db.entities.NewsWithRemoteKeys
 import fr.iut.pm.techwatch.db.services.NewsService
 import fr.iut.pm.techwatch.db.services.ServiceBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import java.io.InvalidObjectException
 import java.lang.IllegalArgumentException
 
 class NewsRemoteMediator(
     private val db: TechWatchDatabase,
     private val feed: Feed,
-    private val newsDao: NewsDao = db.newsDao(),
-) : RemoteMediator<Int, News>() {
+    private val initialPage: Int = 1,
     private val newsApi: NewsService = ServiceBuilder.build(NewsService::class.java)
-    private var nextPageNumber : Int = 1
-
+) : RemoteMediator<Int, News>() {
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, News>
     ): MediatorResult {
         return try {
-            nextPageNumber = when (loadType) {
-                LoadType.REFRESH -> 1
-                LoadType.APPEND -> nextPageNumber + 1
-                LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
+            val page = when (loadType) {
+                LoadType.REFRESH -> {
+                    val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
+                    remoteKeys?.nextKey?.minus(1) ?: initialPage
+                }
+                LoadType.APPEND -> {
+                    val remoteKeys = getRemoteKeyForLastItem(state) ?: throw InvalidObjectException("Result is empty")
+                    remoteKeys.nextKey ?: return MediatorResult.Success(true)
+                }
+                LoadType.PREPEND -> {
+                    return MediatorResult.Success(endOfPaginationReached = true)
+                }
             }
 
             withContext(Dispatchers.IO) {
                 val response = newsApi.getNews(
                     ServiceBuilder.getEndpoint() + feed.url,
-                    nextPageNumber,
+                    page,
                     state.config.pageSize
                 ).execute()
 
@@ -47,20 +56,44 @@ class NewsRemoteMediator(
 
                 val body = response.body()!!
 
+                val endOfPaginationReached = body.articles.size < state.config.pageSize
+
                 db.withTransaction {
                     if (loadType == LoadType.REFRESH) {
-                        newsDao.deleteMany(feed.id)
+                        db.newsWithRemoteKeysDao().deleteMany(feed.id)
+                        db.newsDao().deleteMany(feed.id)
                     }
+
+                    val prevKey = if (page == initialPage) null else page - 1
+                    val nextKey = if (endOfPaginationReached) null else page + 1
+
                     body.articles.forEach { it.feedId = feed.id }
-                    newsDao.upsertMany(*body.articles.toTypedArray())
+                    var insertedIds = db.newsDao().upsertMany(*body.articles.toTypedArray())
+
+                    val keys = insertedIds.map {
+                        NewsWithRemoteKeys(newsId = it, feedId = feed.id, prevKey = prevKey, nextKey = nextKey)
+                    }
+                    db.newsWithRemoteKeysDao().upsertMany(*keys.toTypedArray())
                 }
 
-                MediatorResult.Success(
-                    endOfPaginationReached = body.articles.size < state.config.pageSize
-                )
+                MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
             }
         } catch (e: Exception) {
             MediatorResult.Error(e)
+        }
+    }
+
+    private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, News>): NewsWithRemoteKeys? {
+        return state.lastItemOrNull()?.let { news ->
+            db.withTransaction { db.newsWithRemoteKeysDao().findByNewsId(news.id) }
+        }
+    }
+
+    private suspend fun getRemoteKeyClosestToCurrentPosition(state: PagingState<Int, News>): NewsWithRemoteKeys? {
+        return state.anchorPosition?.let { position ->
+            state.closestItemToPosition(position)?.id?.let { id ->
+                db.withTransaction { db.newsWithRemoteKeysDao().findByNewsId(id) }
+            }
         }
     }
 }

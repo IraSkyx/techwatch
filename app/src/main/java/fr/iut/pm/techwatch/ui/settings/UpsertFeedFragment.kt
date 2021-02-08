@@ -13,7 +13,7 @@ import fr.iut.pm.techwatch.db.entities.Feed
 
 class UpsertFeedFragment : Fragment() {
     private val viewModel: UpsertFeedViewModel by viewModels {
-        UpsertFeedViewModelFactory((activity?.application as TechWatchApplication).repository)
+        UpsertFeedViewModelFactory((activity?.application as TechWatchApplication).feedRepository)
     }
     private lateinit var feedBinding: UpsertFeedFragmentBinding
 
