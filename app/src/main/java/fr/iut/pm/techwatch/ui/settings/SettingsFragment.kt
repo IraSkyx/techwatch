@@ -43,9 +43,9 @@ class SettingsFragment : Fragment() {
 
             val swipeHandler = object : SwipeToDeleteCallback(context) {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    viewModel.allFeeds.value?.get(viewHolder.adapterPosition)?.let { feed ->
+                    viewModel.allFeeds.value?.get(viewHolder.absoluteAdapterPosition)?.let { feed ->
                         viewModel.delete(feed)
-                        listAdapter.notifyItemRemoved(viewHolder.adapterPosition)
+                        listAdapter.notifyItemRemoved(viewHolder.absoluteAdapterPosition)
 
                         Snackbar.make(view, R.string.feed_deleted, Snackbar.LENGTH_LONG)
                             .setAction(R.string.undo_action) {

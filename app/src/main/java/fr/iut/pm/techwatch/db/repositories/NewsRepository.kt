@@ -21,8 +21,9 @@ class NewsRepository(
         ),
         remoteMediator = NewsRemoteMediator(db, feed),
         pagingSourceFactory = {
-            dataSource = db.newsDao().pagingSource(feed.id)
-            dataSource!!
+            val newDataDource = db.newsDao().pagingSource(feed.id)
+            dataSource = newDataDource
+            newDataDource
         }
     ).liveData
 

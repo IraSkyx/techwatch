@@ -15,14 +15,15 @@ class UpsertFeedFragment : Fragment() {
     private val viewModel: UpsertFeedViewModel by viewModels {
         UpsertFeedViewModelFactory((activity?.application as TechWatchApplication).feedRepository)
     }
-    private lateinit var feedBinding: UpsertFeedFragmentBinding
+    private lateinit var feed: Feed
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        feedBinding = UpsertFeedFragmentBinding.inflate(inflater)
-        feedBinding.feed = arguments?.getSerializable("feed") as Feed
+    ): View {
+        val feedBinding = UpsertFeedFragmentBinding.inflate(inflater)
+        feed = arguments?.getSerializable("feed") as Feed
+        feedBinding.feed = feed
         feedBinding.lifecycleOwner = viewLifecycleOwner
 
         setHasOptionsMenu(true)
@@ -32,7 +33,7 @@ class UpsertFeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = if (feedBinding.feed?.id == Feed.NEW_FEED_ID) "Add feed" else "Edit feed"
+        (activity as AppCompatActivity).supportActionBar?.title = if (feed.id == Feed.NEW_FEED_ID) "Add feed" else "Edit feed"
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -42,7 +43,7 @@ class UpsertFeedFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_save -> {
-                feedBinding.feed?.let {
+                feed.let {
                     viewModel.upsert(it)
                     view?.findNavController()?.navigateUp()
                 }

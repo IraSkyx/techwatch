@@ -19,6 +19,7 @@ class HomeFragment : Fragment() {
             (activity?.application as TechWatchApplication).newsRepository,
         )
     }
+    private var tabLayoutMediator: TabLayoutMediator? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,10 +31,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
+        val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
 
         val listAdapter = HomeFeedAdapter(this, viewModel)
-        var viewPager = view.findViewById<ViewPager2>(R.id.viewPager).apply {
+        val viewPager = view.findViewById<ViewPager2>(R.id.viewPager).apply {
             adapter = listAdapter
         }
 
@@ -41,11 +42,11 @@ class HomeFragment : Fragment() {
 
         viewModel.allFeeds.observe(viewLifecycleOwner, { feeds ->
             feeds?.let {
-                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tabLayoutMediator?.detach()
+                tabLayoutMediator = TabLayoutMediator(tabLayout, viewPager) { tab, position ->
                     tab.text = it.takeIf { position < it.size }?.get(position)?.name
-                }.attach()
-                viewPager.invalidate()
-                listAdapter.notifyDataSetChanged()
+                }
+                tabLayoutMediator?.attach()
             }
         })
     }

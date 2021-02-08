@@ -48,15 +48,9 @@ class NewsRemoteMediator(
                     ServiceBuilder.getEndpoint() + feed.url,
                     page,
                     state.config.pageSize
-                ).execute()
+                )
 
-                if(!response.isSuccessful) {
-                    throw HttpException(response)
-                }
-
-                val body = response.body()!!
-
-                val endOfPaginationReached = body.articles.size < state.config.pageSize
+                val endOfPaginationReached = response.articles.size < state.config.pageSize
 
                 db.withTransaction {
                     if (loadType == LoadType.REFRESH) {
@@ -67,8 +61,8 @@ class NewsRemoteMediator(
                     val prevKey = if (page == initialPage) null else page - 1
                     val nextKey = if (endOfPaginationReached) null else page + 1
 
-                    body.articles.forEach { it.feedId = feed.id }
-                    var insertedIds = db.newsDao().upsertMany(*body.articles.toTypedArray())
+                    response.articles.forEach { it.feedId = feed.id }
+                    val insertedIds = db.newsDao().upsertMany(*response.articles.toTypedArray())
 
                     val keys = insertedIds.map {
                         NewsWithRemoteKeys(newsId = it, feedId = feed.id, prevKey = prevKey, nextKey = nextKey)

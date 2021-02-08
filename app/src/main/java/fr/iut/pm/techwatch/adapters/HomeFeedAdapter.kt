@@ -9,7 +9,7 @@ class HomeFeedAdapter(
     fa: Fragment,
     private val viewModel: HomeViewModel,
 ) : FragmentStateAdapter(fa) {
-    override fun getItemCount(): Int = viewModel.allFeeds.value?.size ?: 0 //TODO Improve update when LiveData change
+    override fun getItemCount(): Int = viewModel.allFeeds.value?.size ?: 0
 
     override fun createFragment(position: Int): Fragment {
         return FeedFragment(viewModel.allFeeds.value?.get(position)!!)

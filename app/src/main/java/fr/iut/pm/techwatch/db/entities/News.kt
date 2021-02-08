@@ -6,6 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
 import java.io.Serializable
+import java.util.*
 
 @Entity(
     tableName = "news",
@@ -19,7 +20,7 @@ data class News (
     var description: String?,
     var urlToImage: String?,
     var content: String?,
-    var publishedAt: String?,
+    var publishedAt: Date?,
     @ColumnInfo(index = true) var feedId: Long,
 ) : Serializable {
 }

@@ -25,7 +25,7 @@ class HomeNewsAdapter() : PagingDataAdapter<News, HomeNewsAdapter.NewsViewHolder
         }
     }
 
-    class NewsViewHolder(private var newsBinding: HomeNewsBinding) : RecyclerView.ViewHolder(newsBinding.root) {
+    class NewsViewHolder(private val newsBinding: HomeNewsBinding) : RecyclerView.ViewHolder(newsBinding.root) {
         fun bind(news: News, onItemClick: ((news: News) -> Unit)?) {
             newsBinding.news = news
 
@@ -42,7 +42,7 @@ class HomeNewsAdapter() : PagingDataAdapter<News, HomeNewsAdapter.NewsViewHolder
 
         companion object {
             fun create(parent: ViewGroup): NewsViewHolder {
-                var newsBinding = HomeNewsBinding.inflate(LayoutInflater.from(parent.context))
+                val newsBinding = HomeNewsBinding.inflate(LayoutInflater.from(parent.context))
                 return NewsViewHolder(newsBinding)
             }
         }
@@ -50,7 +50,7 @@ class HomeNewsAdapter() : PagingDataAdapter<News, HomeNewsAdapter.NewsViewHolder
 
     class NewsComparator : DiffUtil.ItemCallback<News>() {
         override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
-            return oldItem.id === newItem.id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: News, newItem: News): Boolean = oldItem == newItem

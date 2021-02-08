@@ -7,8 +7,8 @@ import fr.iut.pm.techwatch.db.repositories.NewsRepository
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private var feedRepository: FeedRepository,
-    private var newsRepository: NewsRepository,
+    feedRepository: FeedRepository,
+    private val newsRepository: NewsRepository,
 ) : ViewModel() {
     val allFeeds: LiveData<List<Feed>> = feedRepository.findAll()
 
@@ -18,8 +18,8 @@ class HomeViewModel(
 }
 
 class HomeViewModelFactory(
-    private var feedRepository: FeedRepository,
-    private var newsRepository: NewsRepository,
+    private val feedRepository: FeedRepository,
+    private val newsRepository: NewsRepository,
     ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {

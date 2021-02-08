@@ -4,11 +4,12 @@ import android.content.Context
 import android.text.format.DateFormat
 import android.view.View
 import java.text.SimpleDateFormat
+import java.util.*
 
 object Converters {
     @JvmStatic
-    fun dateToString(context: Context, value: String?) =
-        value?.let { DateFormat.getDateFormat(context).format(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(it)) }
+    fun dateToString(context: Context, value: Date?) =
+        value?.let { DateFormat.getDateFormat(context).format(it) }
 
     @JvmStatic
     fun attrToVisibility(value: Any?) = if(value == null) View.INVISIBLE else View.VISIBLE

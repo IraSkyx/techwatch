@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import fr.iut.pm.techwatch.db.dao.FeedDao
 import fr.iut.pm.techwatch.db.dao.NewsDao
@@ -11,10 +12,12 @@ import fr.iut.pm.techwatch.db.dao.NewsWithRemoteKeysDao
 import fr.iut.pm.techwatch.db.entities.Feed
 import fr.iut.pm.techwatch.db.entities.News
 import fr.iut.pm.techwatch.db.entities.NewsWithRemoteKeys
+import fr.iut.pm.techwatch.db.utils.Converters
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @Database(entities = [Feed::class, News::class, NewsWithRemoteKeys::class], version = 1, exportSchema = false)
+@TypeConverters(Converters::class)
 abstract class TechWatchDatabase : RoomDatabase() {
     abstract fun feedDao() : FeedDao
     abstract fun newsDao(): NewsDao
@@ -35,8 +38,8 @@ abstract class TechWatchDatabase : RoomDatabase() {
 
         fun populateDatabase(feedDao: FeedDao) {
             //Switch keys when reach the max 100 calls per day
-            var currentKey = 3
-            var apiKeys = listOf(
+            val currentKey = 3
+            val apiKeys = listOf(
                 "4a2b7f29ea9b471ab70bab3907c25a53",
                 "caabb5f1b6304a30bd7b457ad90f37bb",
                 "7cea05ce4ec74bcd9b3d95a22ecb87c1",

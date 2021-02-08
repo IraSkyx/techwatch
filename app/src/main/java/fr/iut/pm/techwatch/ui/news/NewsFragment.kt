@@ -16,8 +16,8 @@ class NewsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        var newsBinding = NewsFragmentBinding.inflate(inflater)
+    ): View {
+        val newsBinding = NewsFragmentBinding.inflate(inflater)
         news = arguments?.getSerializable("news") as News
         newsBinding.news = news
         newsBinding.lifecycleOwner = viewLifecycleOwner

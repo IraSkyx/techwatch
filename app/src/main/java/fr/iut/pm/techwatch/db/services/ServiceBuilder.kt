@@ -8,19 +8,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ServiceBuilder {
     companion object {
-        var BASE_URL = "http://newsapi.org/"
-        var VERSION = "v2/"
+        val BASE_URL = "https://newsapi.org/"
+        val VERSION = "v2/"
 
         @JvmStatic
         fun getEndpoint() = BASE_URL + VERSION
 
         @JvmStatic
         fun <T> build(serviceClass: Class<T>): T {
-            var logging = HttpLoggingInterceptor().apply {
+            val logging = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
 
-            var client = OkHttpClient.Builder()
+            val client = OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .build()
 

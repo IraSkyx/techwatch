@@ -8,9 +8,9 @@ import retrofit2.http.Url
 
 interface NewsService {
     @GET
-    fun getNews(
+    suspend fun getNews(
         @Url url: String,
         @Query("page") page: Int? = null,
         @Query("pageSize") pageSize: Int? = null
-    ): Call<NewsResponse<List<News>>>
+    ): NewsResponse<List<News>>
 }
