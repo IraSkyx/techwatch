@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="fr.iut.pm.techwatch.ui.home.HomeFragment"
-        android:label="Home"
+        android:label="@string/home"
         tools:layout="@layout/home_fragment">
         <action
             android:id="@+id/action_homeFragment_to_settingsFragment"
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="fr.iut.pm.techwatch.ui.settings.SettingsFragment"
-        android:label="Feeds settings"
+        android:label="@string/feeds_settings"
         tools:layout="@layout/settings_fragment">
         <action
             android:id="@+id/action_settingsFragment_to_homeFragment"

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TechWatch</string>
+    <string name="add_feed">Ajouter un fil d\'actus</string>
+    <string name="breaking_news">Dernières News</string>
+    <string name="to_stay_tuned_on_the_latest_tech_news">Pour rester au courant des dernières news de la Tech</string>
+    <string name="edit_feed">Modifier un fil d\'actus</string>
+    <string name="feeds_settings">Paramètres des fils d\'actus</string>
+    <string name="home">Accueil</string>
+    <string name="open">Ouvrir</string>
+    <string name="close">Fermer</string>
+    <string name="title">Titre</string>
+    <string name="url">URL</string>
+    <string name="feed_deleted">Fil d\'actu supprimé</string>
+    <string name="undo_action">Annuler</string>
+    <string name="name">Nom</string>
+    <string name="save">Sauvegarder</string>
+    <string name="refresh">Rafraîchir</string>
+</resources>

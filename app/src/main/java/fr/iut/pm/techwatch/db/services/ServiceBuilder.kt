@@ -8,8 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ServiceBuilder {
     companion object {
-        val BASE_URL = "https://newsapi.org/"
-        val VERSION = "v2/"
+        const val BASE_URL = "https://newsapi.org/"
+        const val VERSION = "v2/"
 
         @JvmStatic
         fun getEndpoint() = BASE_URL + VERSION

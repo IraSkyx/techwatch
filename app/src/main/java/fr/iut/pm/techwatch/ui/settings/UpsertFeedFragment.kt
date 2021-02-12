@@ -33,7 +33,7 @@ class UpsertFeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = if (feed.id == Feed.NEW_FEED_ID) "Add feed" else "Edit feed"
+        (activity as AppCompatActivity).supportActionBar?.title = if (feed.id == Feed.NEW_FEED_ID) resources.getString(R.string.add_feed) else resources.getString(R.string.edit_feed)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
