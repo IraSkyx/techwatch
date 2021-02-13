@@ -18,9 +18,9 @@ import fr.iut.pm.techwatch.adapters.HomeNewsAdapter
 import fr.iut.pm.techwatch.db.entities.Feed
 import kotlinx.coroutines.launch
 
-class FeedFragment(
-    private val feed: Feed,
-) : Fragment() {
+class FeedFragment: Fragment() {
+    private lateinit var feed: Feed
+
     private val homeFeedViewModel: HomeFeedViewModel by viewModels {
         HomeFeedViewModelFactory((activity?.application as TechWatchApplication).newsRepository)
     }
@@ -29,7 +29,10 @@ class FeedFragment(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.home_feed, container, false)
+    ): View {
+        feed = arguments?.getSerializable("feed") as Feed
+        return inflater.inflate(R.layout.home_feed, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val listAdapter = HomeNewsAdapter()
