@@ -31,7 +31,7 @@ class SettingsFragment : Fragment() {
 
         val listAdapter = SettingsAdapter().apply {
             onItemClick = {
-                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToUpsertFeedFragment(it))
+                findNavController().navigate(SettingsFragmentDirections.actionSettingsFragmentToUpsertFeedFragment(it.copy()))
             }
         }
 
@@ -43,7 +43,6 @@ class SettingsFragment : Fragment() {
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     viewModel.allFeeds.value?.get(viewHolder.absoluteAdapterPosition)?.let { feed ->
                         viewModel.delete(feed)
-                        listAdapter.notifyItemRemoved(viewHolder.absoluteAdapterPosition)
 
                         Snackbar.make(view, R.string.feed_deleted, Snackbar.LENGTH_LONG)
                             .setAction(R.string.undo_action) {
