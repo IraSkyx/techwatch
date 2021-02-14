@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -24,27 +23,39 @@
         android:label="@string/feeds_settings"
         tools:layout="@layout/settings_fragment">
         <action
+            android:id="@+id/action_settingsFragment_to_upsertFeedFragment"
+            app:destination="@id/upsertFeedFragment">
+            <argument
+                android:name="feed"
+                app:argType="fr.iut.pm.techwatch.db.entities.Feed" />
+        </action>
+        <action
             android:id="@+id/action_settingsFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
-        <action
-            android:id="@+id/action_settingsFragment_to_upsertFeedFragment"
-            app:destination="@id/upsertFeedFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/upsertFeedFragment"
         android:name="fr.iut.pm.techwatch.ui.settings.UpsertFeedFragment"
         tools:layout="@layout/upsert_feed_fragment">
-        <action
-            android:id="@+id/action_upsertFeedFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
+        <argument
+            android:name="feed"
+            app:argType="fr.iut.pm.techwatch.db.entities.Feed" />
     </fragment>
     <fragment
         android:id="@+id/newsFragment"
         android:name="fr.iut.pm.techwatch.ui.news.NewsFragment"
         tools:layout="@layout/news_fragment">
-        <action
-            android:id="@+id/action_newsFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+        <argument
+            android:name="news"
+            app:argType="fr.iut.pm.techwatch.db.entities.News" />
+    </fragment>
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="fr.iut.pm.techwatch.ui.home.FeedFragment"
+        tools:layout="@layout/feed_fragment">
+        <argument
+            android:name="feed"
+            app:argType="fr.iut.pm.techwatch.db.entities.Feed" />
     </fragment>
 </navigation>

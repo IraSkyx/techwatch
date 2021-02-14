@@ -1,6 +1,6 @@
-package fr.iut.pm.techwatch;
+package fr.iut.pm.techwatch
 
-import android.app.Application;
+import android.app.Application
 import fr.iut.pm.techwatch.db.TechWatchDatabase
 import fr.iut.pm.techwatch.db.repositories.FeedRepository
 import fr.iut.pm.techwatch.db.repositories.NewsRepository

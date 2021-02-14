@@ -5,35 +5,30 @@ import android.view.*
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
 import fr.iut.pm.techwatch.R
 import fr.iut.pm.techwatch.databinding.NewsFragmentBinding
-import fr.iut.pm.techwatch.db.entities.News
 
 class NewsFragment : Fragment() {
-    private lateinit var news: News
+    private val args: NewsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        val newsBinding = NewsFragmentBinding.inflate(inflater)
-        news = arguments?.getSerializable("news") as News
-        newsBinding.news = news
-        newsBinding.lifecycleOwner = viewLifecycleOwner
-
-        return newsBinding.root
-    }
+    ): View = NewsFragmentBinding.inflate(inflater).apply {
+        news = args.news
+        lifecycleOwner = viewLifecycleOwner
+    }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as AppCompatActivity).supportActionBar?.title = news.title
+        (activity as AppCompatActivity).supportActionBar?.title = args.news.title
 
         view.findViewById<ImageView>(R.id.newsFragment_imageView).apply {
-            news.urlToImage.let {
-                Picasso.get().load(news.urlToImage).into(this)
-            }
+            args.news.description.let { contentDescription = it }
+            args.news.urlToImage.let { Picasso.get().load(args.news.urlToImage).into(this) }
         }
     }
 }

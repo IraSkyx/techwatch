@@ -12,12 +12,7 @@ import fr.iut.pm.techwatch.TechWatchApplication
 import fr.iut.pm.techwatch.adapters.HomeFeedAdapter
 
 class HomeFragment : Fragment() {
-    private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(
-            (activity?.application as TechWatchApplication).feedRepository,
-            (activity?.application as TechWatchApplication).newsRepository,
-        )
-    }
+    private val viewModel: HomeViewModel by viewModels { HomeViewModelFactory((activity?.application as TechWatchApplication).feedRepository) }
     private var tabLayoutMediator: TabLayoutMediator? = null
 
     override fun onCreateView(
@@ -28,10 +23,11 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
-        val viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
         val listAdapter = HomeFeedAdapter(this)
-        viewPager.adapter = listAdapter
+        val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
+        val viewPager = view.findViewById<ViewPager2>(R.id.viewPager).apply {
+            adapter = listAdapter
+        }
 
         viewModel.allFeeds.observe(viewLifecycleOwner, { feeds ->
             listAdapter.feeds = feeds

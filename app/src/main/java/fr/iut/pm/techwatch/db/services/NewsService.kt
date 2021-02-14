@@ -1,7 +1,6 @@
 package fr.iut.pm.techwatch.db.services
 
 import fr.iut.pm.techwatch.db.entities.News
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.Url

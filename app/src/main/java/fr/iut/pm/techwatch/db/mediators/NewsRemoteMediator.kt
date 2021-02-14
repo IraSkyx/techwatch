@@ -5,8 +5,6 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import fr.iut.pm.techwatch.db.TechWatchDatabase
-import fr.iut.pm.techwatch.db.dao.NewsDao
-import fr.iut.pm.techwatch.db.dao.NewsWithRemoteKeysDao
 import fr.iut.pm.techwatch.db.entities.Feed
 import fr.iut.pm.techwatch.db.entities.News
 import fr.iut.pm.techwatch.db.entities.NewsWithRemoteKeys
@@ -14,9 +12,7 @@ import fr.iut.pm.techwatch.db.services.NewsService
 import fr.iut.pm.techwatch.db.services.ServiceBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.HttpException
 import java.io.InvalidObjectException
-import java.lang.IllegalArgumentException
 
 class NewsRemoteMediator(
     private val db: TechWatchDatabase,

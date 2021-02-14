@@ -1,18 +1,13 @@
 <resources>
     <string name="app_name">TechWatch</string>
     <string name="add_feed">Add Feed</string>
-    <string name="breaking_news">Breaking News</string>
-    <string name="to_stay_tuned_on_the_latest_tech_news">To stay tuned on the latest tech news</string>
     <string name="edit_feed">Edit Feed</string>
     <string name="feeds_settings">Feeds settings</string>
     <string name="home">Home</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-    <string name="title">Title</string>
     <string name="url">URL</string>
     <string name="feed_deleted">Feed deleted</string>
     <string name="undo_action">Undo</string>
     <string name="name">Name</string>
     <string name="save">Save</string>
-    <string name="refresh">Refresh</string>
+    <string name="no_description">No description</string>
 </resources>

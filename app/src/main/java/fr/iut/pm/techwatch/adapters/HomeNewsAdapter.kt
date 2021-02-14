@@ -11,12 +11,10 @@ import fr.iut.pm.techwatch.R
 import fr.iut.pm.techwatch.databinding.HomeNewsBinding
 import fr.iut.pm.techwatch.db.entities.News
 
-class HomeNewsAdapter() : PagingDataAdapter<News, HomeNewsAdapter.NewsViewHolder>(NewsComparator()) {
+class HomeNewsAdapter : PagingDataAdapter<News, HomeNewsAdapter.NewsViewHolder>(NewsComparator()) {
     var onItemClick : ((news: News) -> Unit)? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        return NewsViewHolder.create(parent)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = NewsViewHolder.create(parent)
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val current = getItem(position)
@@ -30,9 +28,8 @@ class HomeNewsAdapter() : PagingDataAdapter<News, HomeNewsAdapter.NewsViewHolder
             newsBinding.news = news
 
             itemView.findViewById<ImageView>(R.id.home_news_imageView).apply {
-                news.urlToImage.let {
-                    Picasso.get().load(news.urlToImage).into(this)
-                }
+                news.description.let { contentDescription = it }
+                news.urlToImage.let { Picasso.get().load(news.urlToImage).into(this) }
             }
 
             itemView.setOnClickListener {
@@ -41,18 +38,12 @@ class HomeNewsAdapter() : PagingDataAdapter<News, HomeNewsAdapter.NewsViewHolder
         }
 
         companion object {
-            fun create(parent: ViewGroup): NewsViewHolder {
-                val newsBinding = HomeNewsBinding.inflate(LayoutInflater.from(parent.context))
-                return NewsViewHolder(newsBinding)
-            }
+            fun create(parent: ViewGroup) = NewsViewHolder(HomeNewsBinding.inflate(LayoutInflater.from(parent.context)))
         }
     }
 
     class NewsComparator : DiffUtil.ItemCallback<News>() {
-        override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: News, newItem: News): Boolean = oldItem == newItem
+        override fun areItemsTheSame(oldItem: News, newItem: News) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: News, newItem: News) = oldItem.title == newItem.title && oldItem.publishedAt == newItem.publishedAt
     }
 }

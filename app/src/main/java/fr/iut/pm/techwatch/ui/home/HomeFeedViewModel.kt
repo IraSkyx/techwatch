@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import fr.iut.pm.techwatch.db.entities.Feed
-import fr.iut.pm.techwatch.db.repositories.FeedRepository
 import fr.iut.pm.techwatch.db.repositories.NewsRepository
 import kotlinx.coroutines.launch
 

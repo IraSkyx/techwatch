@@ -22,5 +22,4 @@ data class News (
     var content: String?,
     var publishedAt: Date?,
     @ColumnInfo(index = true) var feedId: Long,
-) : Serializable {
-}
+) : Serializable

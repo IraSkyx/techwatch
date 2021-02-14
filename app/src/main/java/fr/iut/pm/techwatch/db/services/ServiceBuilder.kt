@@ -5,11 +5,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class ServiceBuilder {
     companion object {
-        const val BASE_URL = "https://newsapi.org/"
-        const val VERSION = "v2/"
+        private const val BASE_URL = "https://newsapi.org/"
+        private const val VERSION = "v2/"
 
         @JvmStatic
         fun getEndpoint() = BASE_URL + VERSION

@@ -3,7 +3,6 @@ package fr.iut.pm.techwatch.ui.utils
 import android.content.Context
 import android.text.format.DateFormat
 import android.view.View
-import java.text.SimpleDateFormat
 import java.util.*
 
 object Converters {
