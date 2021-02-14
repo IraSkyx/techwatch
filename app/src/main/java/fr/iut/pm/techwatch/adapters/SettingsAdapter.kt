@@ -24,7 +24,7 @@ class SettingsAdapter : ListAdapter<Feed, SettingsAdapter.FeedViewHolder>(FeedsC
         }
 
         companion object {
-            fun create(parent: ViewGroup) = FeedViewHolder(SettingsRecyclerviewItemBinding.inflate(LayoutInflater.from(parent.context)))
+            fun create(parent: ViewGroup) = FeedViewHolder(SettingsRecyclerviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }
     }
 
