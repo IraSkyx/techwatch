@@ -1,29 +1,29 @@
 # TechWatch
 
-TechWatch permet de prendre avantage de l'API https://newsapi.org/ en modelant ses liens pour se créer des fils d'actualités personnalisés.  
-L'application cible l'API 16 minimum.
+TechWatch allows you to take advantage of the https://newsapi.org/ API by shaping your links to create custom news feeds.  
+The application targets the 16 API minimum.
 
-## Conception
+## Design
 
 ![](https://i.imgur.com/fpmMOET.png)
 
-Dans ce schéma de conception, on propose de respecter le pattern MVVM sous Android mais en ajoutant une couche intermédiaire Repository qui va faire le lien entre la partie Network et la partie Database. Le Repository ne fait que déléguer les tâches. Pour la base de données, à la DAO et si il ne sait pas entre le Network ou Database alors c'est le Mediator qui décidera s'il doit faire appel au Service ou bien à la Database. 
+In this design scheme, we propose to respect the MVVM pattern under Android but by adding an intermediate layer Repository which will make the link between the Network part and the Database part. The Repository only delegates tasks. For the database, to the DAO and if it doesn't know between the Network or Database then it's the Mediator that will decide if it should call the Service or the Database. 
 
-## Outils d'AndroidX et Jetpack
+## AndroidX and Jetpack tools
 
 - ConstraintLayout + SwipeRefreshLayout
 - RecyclerView
 - Material Design
 - Room database 
-- ViewModel et LiveData
+- ViewModel and LiveData
 - Data Binding
 - Paging Library 3.0
 - Navigation
 
-## Autres outils
+## Other tools
 
-- Coroutines de Kotlin
+- Kotlin Coroutines
 - Swipe to delete
-- Preload de font google
-- Retrofit pour les requêtes HTTP, la conversion de données et le logging avec okhttp3
-- Picasso pour le chargement, l'affichage et la mise en cache d'image 
+- Google font preload
+- Retrofit for HTTP requests, data conversion and logging with okhttp3
+- Picasso for image loading, displaying and caching 
